@@ -59,6 +59,6 @@ for station in stations:
     answer = st.radio(f"{station}:", options=["Yes", "No"], key=station)
     station_checklist.append(answer.lower() == "yes")
 
-if st.button("Check Readiness"):
+if st.button("Check HYROX Readiness"):
     result = hyrox_readiness(hours, km_run, pace, station_checklist)
     st.success(f"Your HYROX readiness level is: **{result}**")
