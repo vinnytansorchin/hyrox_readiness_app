@@ -1,100 +1,64 @@
-{
- "cells": [
-  {
-   "cell_type": "code",
-   "execution_count": null,
-   "metadata": {},
-   "outputs": [],
-   "source": [
-    "pip install streamlit\n",
-    "\n",
-    "import streamlit as st\n",
-    "def hyrox_readiness(hours_workout, distance_run, run_pace, station_checklist):\n",
-    "    score = 0\n",
-    "\n",
-    "    #endurance score\n",
-    "    if hours_workout >=6: #6 hours per week or more\n",
-    "        score += 30\n",
-    "    elif hours_workout >=4:\n",
-    "        score +=20\n",
-    "    elif hours_workout >=2:\n",
-    "        score+=10\n",
-    "   \n",
-    "    #running volume score\n",
-    "    if distance_run >=25: #25km per week or more\n",
-    "        score +=30\n",
-    "    elif distance_run >=15:\n",
-    "        score +=20\n",
-    "    elif distance_run >=5:\n",
-    "        score +=10\n",
-    "    \n",
-    "    #running pace score\n",
-    "    if run_pace <=5: #5min/km or faster\n",
-    "        score +=20\n",
-    "    elif run_pace <=6:\n",
-    "        score +=15\n",
-    "    elif run_pace <=7:\n",
-    "        score +=10\n",
-    "    \n",
-    "    #hyrox stations\n",
-    "    completed_stations = sum(station_checklist)\n",
-    "    score += completed_stations*2\n",
-    "\n",
-    "    #determine level\n",
-    "    if score >= 85:\n",
-    "        return \"hyrox elite\"\n",
-    "    if score >=65:\n",
-    "        return \"hyrox competitor\"\n",
-    "    if score >=45:\n",
-    "        return \"hyrox beginner\"\n",
-    "    else:\n",
-    "        return \"not ready yet\"\n",
-    "    \n",
-    "\n",
-    "    \n",
-    "# Streamlit app layout\n",
-    "st.title(\"🏋️ HYROX Readiness Checker\")\n",
-    "\n",
-    "hours = st.number_input(\"How many hours do you train per week?\", min_value=0.0)\n",
-    "km_run = st.number_input(\"How many km do you run per week?\", min_value=0.0)\n",
-    "pace = st.number_input(\"What is your average 1km run pace (min/km)?\", min_value=0.0)\n",
-    "\n",
-    "st.write(\"Can you complete these HYROX stations?\")\n",
-    "stations = [\n",
-    "    \"SkiErg\", \"Sled Push\", \"Sled Pull\", \"Burpee Broad Jumps\",\n",
-    "    \"Rowing\", \"Farmers Carry\", \"Sandbag Lunges\", \"Wall Balls\"\n",
-    "]\n",
-    "\n",
-    "station_checklist = []\n",
-    "for station in stations:\n",
-    "    answer = st.radio(f\"{station}:\", options=[\"Yes\", \"No\"], key=station)\n",
-    "    station_checklist.append(answer.lower() == \"yes\")\n",
-    "\n",
-    "if st.button(\"Check Readiness\"):\n",
-    "    result = hyrox_readiness(hours, km_run, pace, station_checklist)\n",
-    "    st.success(f\"Your HYROX readiness level is: **{result}**\")"
-   ]
-  }
- ],
- "metadata": {
-  "kernelspec": {
-   "display_name": "Python 3",
-   "language": "python",
-   "name": "python3"
-  },
-  "language_info": {
-   "codemirror_mode": {
-    "name": "ipython",
-    "version": 3
-   },
-   "file_extension": ".py",
-   "mimetype": "text/x-python",
-   "name": "python",
-   "nbconvert_exporter": "python",
-   "pygments_lexer": "ipython3",
-   "version": "3.7.3"
-  }
- },
- "nbformat": 4,
- "nbformat_minor": 2
-}
+import streamlit as st
+
+def hyrox_readiness(hours_workout, distance_run, run_pace, station_checklist):
+    score = 0
+
+    # endurance score
+    if hours_workout >= 6:
+        score += 30
+    elif hours_workout >= 4:
+        score += 20
+    elif hours_workout >= 2:
+        score += 10
+
+    # running volume score
+    if distance_run >= 25:
+        score += 30
+    elif distance_run >= 15:
+        score += 20
+    elif distance_run >= 5:
+        score += 10
+
+    # running pace score
+    if run_pace <= 5:
+        score += 20
+    elif run_pace <= 6:
+        score += 15
+    elif run_pace <= 7:
+        score += 10
+
+    # HYROX station readiness
+    completed_stations = sum(station_checklist)
+    score += completed_stations * 2
+
+    # readiness level
+    if score >= 85:
+        return "HYROX Elite"
+    elif score >= 65:
+        return "HYROX Competitor"
+    elif score >= 45:
+        return "HYROX Beginner"
+    else:
+        return "Not Ready Yet"
+
+# Streamlit app layout
+st.title("🏋️ HYROX Readiness Checker")
+
+hours = st.number_input("How many hours do you train per week?", min_value=0.0)
+km_run = st.number_input("How many km do you run per week?", min_value=0.0)
+pace = st.number_input("What is your average 1km run pace (min/km)?", min_value=0.0)
+
+st.write("Can you complete these HYROX stations?")
+stations = [
+    "SkiErg", "Sled Push", "Sled Pull", "Burpee Broad Jumps",
+    "Rowing", "Farmers Carry", "Sandbag Lunges", "Wall Balls"
+]
+
+station_checklist = []
+for station in stations:
+    answer = st.radio(f"{station}:", options=["Yes", "No"], key=station)
+    station_checklist.append(answer.lower() == "yes")
+
+if st.button("Check Readiness"):
+    result = hyrox_readiness(hours, km_run, pace, station_checklist)
+    st.success(f"Your HYROX readiness level is: **{result}**")
